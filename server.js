@@ -1,5 +1,6 @@
 import express from 'express';
 import connectDatabase from './config/db';
+import { check, validationResult } from 'express-validator';
 
 //initialize express application
 const app = express();
@@ -7,26 +8,43 @@ const app = express();
 //connect database
 connectDatabase();
 
+//configure middleware
+app.use(express.json({ extended : false}));
+
 //api endpoints
 /**
  *@route GET/
- *@desc test endpoints/
- **/
-
+ *@desc test endpoint/
+ */
 app.get('/', (req, res) =>
     res.send('http get request sent to api endpoint')
 );
 
 /**
- *@route POST api/users
+ *@route POST api/users  
  *@desc register user
- **/
-
-app.post('/api/users', (req, res) => {
-    console.log(req.body);
-    res.send(req.body);
-});
+ */
+app.post(
+    '/api/Users',
+    [
+        check('name', 'Please enter your name')
+        .not()
+        .isEmpty(),
+        check('email', 'PLease enter a valid email').isEmail(),
+        check(
+            'password',
+            'Please enter a password with 6 or more characters'
+        ).isLength({ min: 6})
+    ],
+    (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        } else {
+            return res.send(req.body);
+        }
+    }
+);
 
 //connection listener
 app.listen(3000, () => console.log('Express server running on port 3000'));
-
