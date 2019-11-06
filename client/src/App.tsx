@@ -1,26 +1,28 @@
 import React from 'react';
 import './App.css';
 import axios from 'axios';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
+import Register from './components/Register/Register';
+import Login from './components/Login/Login';
 
 class App extends React.Component {
   state = {
-    data : null
+    data: null
   }
 
   componentDidMount() {
     axios.get('http://localhost:5000')
-      .then((response) => {
-        this.setState({
-          data : response.data
-        })
+    .then((response) => {
+      this.setState({
+        data: response.data
       })
-      .catch((error) => {
-        console.error(`Error fetching data: ${error}`);
-      }) 
+    })
+    .catch((error) => {
+      console.error(`Error fetching data: ${error}`);
+    })
   }
-  
-  render() {
+
+  render () {
     return (
       <Router>
         <div className="App">
@@ -28,13 +30,13 @@ class App extends React.Component {
             <h1>GoodThings</h1>
             <ul>
               <li>
-                <Link to="/">Home</Link> 
+                <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="/register">Register</Link> 
+                <Link to="/register">Register</Link>
               </li>
               <li>
-                <Link to="/login">Login</Link> 
+                <Link to="/login">Login</Link>
               </li>
             </ul>
           </header>
@@ -43,12 +45,8 @@ class App extends React.Component {
               {this.state.data}
             </Route>
             <Switch>
-              <Route path="/register">
-                Register
-              </Route>
-              <Route path="/login">
-                Login
-              </Route>
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
             </Switch>
           </main>
         </div>
