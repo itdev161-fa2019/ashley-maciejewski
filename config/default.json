@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://maciejak:en4h2bBB@cluster0-tonju.mongodb.net/test?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://maciejak:en4h2bBB@cluster0-tonju.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "hellothere"
 }
