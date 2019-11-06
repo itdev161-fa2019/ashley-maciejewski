@@ -9,7 +9,7 @@ class App extends React.Component {
   state = {
     data: null
   }
-
+  
   componentDidMount() {
     axios.get('http://localhost:5000')
     .then((response) => {
